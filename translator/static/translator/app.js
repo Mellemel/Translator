@@ -19,6 +19,10 @@ myApp.controller('TextCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.text = ''
   $scope.translations = []
 
+  $http.get('/retrieve').then(function(res){
+    $scope.translations = res.data.data
+  })
+
   $scope.post = function() {
     $http({
       method: 'post',

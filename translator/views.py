@@ -11,18 +11,25 @@ import json
 translator = Translator(config.client_id, config.key)
 
 def index(request):
+  if not request.session.get('has_session'):
+    request.session['has_session'] = True
   template = loader.get_template('translator/index.html')
   return HttpResponse(template.render(request=request))
 
 def translate(request):
   body = json.loads(request.body.decode('utf-8'))
-  print(body)
   data = {}
   data['original_text'] = body['text']
   data['language'] = translator.detect_language(body['text'])
-  data['translation'] = translator.translate(body['text'], 'en')
+  data['translated_text'] = translator.translate(body['text'], 'en')
+  t = Translations(**data, session=request.session.session_key)
+  t.save()
   return JsonResponse(data)
 
 
 def getTranslations(request):
-  pass
+  data = {}
+  if request.session.get('has_session'):
+    t = Translations.objects.filter(session=request.session.session_key).values()
+    data['data'] = [entry for entry in t] 
+  return JsonResponse(data)
