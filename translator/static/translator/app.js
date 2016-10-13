@@ -27,10 +27,11 @@ myApp.controller('TextCtrl', ['$scope', '$http', function($scope, $http) {
         csrfmiddlewaretoken: '{{ csrf_token }}',
         text: $scope.text
       }
-    }).then(function setTranslation(res) {
-      console.log(res)
-    }, function errcallback(res){
+    }).then(function(res) {
+      $scope.translations.push(res.data)
+    }, function(res){
       console.log(res)
     })
+    $scope.text = ''
   }
 }])

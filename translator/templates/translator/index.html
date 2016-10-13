@@ -31,8 +31,8 @@
 				</ul>
 			</div>
 
-			<div class="col-sm-8">
-				<div ng-show="isSet(1)" ng-controller="TextCtrl">
+			<div class="col-sm-8" ng-controller="TextCtrl">
+				<div ng-show="isSet(1)" >
 					<form ng-submit="post()">
             {% csrf_token %}
 						<textarea class="form-control" rows="5" ng-model='text' placeholder="Enter text to translate" required></textarea>
@@ -50,10 +50,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="translation in tranlations">
-                <td>{{translation.original_text}}</td>
-                <td>{{translation.language}}</td>
-                <td>{{translation.translation}}</td>
+              <tr ng-repeat="text in translations">
+                <td>{{text.original_text}}</td>
+                <td>{{text.language}}</td>
+                <td>{{text.translation}}</td>
               </tr>
             </tbody>
           </table>
