@@ -7,7 +7,7 @@
 	<title>The Translator</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 		crossorigin="anonymous">
-	<link href="{% static "translator/style.css" %}">
+	<link href="{% static "translator/style.css" %}{% now "U" %}">
 	<script src="http://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
 		crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
@@ -16,11 +16,11 @@
 </head>
 
 <body>
-	{% verbatim %}
+	
 	<div class="container" ng-controller="TabCtrl">
 		<div class="row">
 
-			<div class="col-sm-2 col-md-offset-1">
+			<div class="col-sm-2 col-sm-offset-1">
 				<ul class="nav nav-pills nav-stacked">
 					<li ng-class="{ active: isSet(1) }">
 						<a href ng-click="setTab(1)">Translate</a>
@@ -32,18 +32,36 @@
 			</div>
 
 			<div class="col-sm-8">
-				<div ng-show="isSet(1)">
-					<form>
-						<textarea class="form-control" id="exampleTextarea" rows="10" value="Enter text to translate"></textarea>
+				<div ng-show="isSet(1)" ng-controller="TextCtrl">
+					<form ng-submit="post()">
+            {% csrf_token %}
+						<textarea class="form-control" rows="5" ng-model='text' placeholder="Enter text to translate" required></textarea>
+            <button id="submit" type="submit" class="btn btn-primary pull-right">Submit</button>
 					</form>
 				</div>
+        {% verbatim %}
 				<div ng-show="isSet(2)">
-
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Original Text</th>
+                <th>Language</th>
+                <th>Translation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="translation in tranlations">
+                <td>{{translation.original_text}}</td>
+                <td>{{translation.language}}</td>
+                <td>{{translation.translation}}</td>
+              </tr>
+            </tbody>
+          </table>
 				</div>
+        {% endverbatim %}
 			</div>
 		</div>
 	</div>
-	{% endverbatim %}
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 	<script src="{% static "translator/app.js" %}"></script>
 </body>
