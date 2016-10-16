@@ -7,12 +7,12 @@
 	<title>The Translator</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 		crossorigin="anonymous">
-	<link href="{% static "translator/style.css" %}?{% now "U" %}">
 	<script src="http://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
 		crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 		crossorigin="anonymous">
 	</script>
+	<link rel='stylesheet' href="{% static "translator/style.css" %}">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
 	<div class="container" ng-controller="TabCtrl">
 		<div class="row">
 
-			<div class="col-sm-2 col-sm-offset-1">
+			<div class="col-sm-2 col-sm-offset-1 col-md-2 col-md-offset-2">
 				<ul class="nav nav-pills nav-stacked">
 					<li ng-class="{ active: isSet(1) }">
 						<a href ng-click="setTab(1)">Translate</a>
@@ -31,7 +31,7 @@
 				</ul>
 			</div>
 
-			<div class="col-sm-8" ng-controller="TextCtrl">
+			<div class="col-sm-8 col-md-5" ng-controller="TextCtrl">
 				<div ng-show="isSet(1)" >
 					<form ng-submit="post()">
             {% csrf_token %}
@@ -41,7 +41,7 @@
 				</div>
         {% verbatim %}
 				<div ng-show="isSet(2)">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
               <tr>
                 <th>Original Text</th>
@@ -54,6 +54,11 @@
                 <td>{{text.original_text}}</td>
                 <td>{{text.language}}</td>
                 <td>{{text.translated_text}}</td>
+								<td>
+									<button class="btn btn-danger" ng-click="remove(text.id)">
+										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									</button>
+								</td>
               </tr>
             </tbody>
           </table>

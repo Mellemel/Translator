@@ -19,10 +19,13 @@ myApp.controller('TextCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.text = ''
   $scope.translations = []
 
+  // make http request to get list for returning users
   $http.get('/retrieve').then(function(res){
+    console.log(res)
     $scope.translations = res.data.data
   })
 
+  //post 
   $scope.post = function() {
     $http({
       method: 'post',
@@ -37,5 +40,8 @@ myApp.controller('TextCtrl', ['$scope', '$http', function($scope, $http) {
       console.log(res)
     })
     $scope.text = ''
+  }
+  $scope.remove = function (id) {
+    console.log(id)
   }
 }])
