@@ -1,0 +1,16 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Original Text</th>
+			<th>Language</th>
+			<th>Translation</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="text in translations">
+			<td>{{text.original_text}}</td>
+			<td>{{text.language}}</td>
+			<td>{{text.translated_text}}</td>
+		</tr>
+	</tbody>
+</table>
