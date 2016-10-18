@@ -1,19 +1,19 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from microsofttranslator import Translator
+from microsofttranslator import Translator as BingTranslator
 
 from .models import Translations
 from . import config
 import urllib.request as urlreq
 import json
 
-translator = Translator(config.client_id, config.key)
+translator = BingTranslator(config.client_id, config.key)
 
 def index(request):
   if not request.session.get('has_session'):
     request.session['has_session'] = True
-  template = loader.get_template('translator/index.html')
+  template = loader.get_template('index.html')
   return HttpResponse(template.render(request=request))
 
 def translate(request):
@@ -22,14 +22,14 @@ def translate(request):
   data['original_text'] = body['text']
   data['language'] = translator.detect_language(body['text'])
   data['translated_text'] = translator.translate(body['text'], 'en')
-  t = Translations(**data, session=request.session.session_key)
+  t = Translations(**data)
   t.save()
   return JsonResponse(data)
 
 
-def getTranslations(request):
+def retrieve(request):
   data = {}
   if request.session.get('has_session'):
-    t = Translations.objects.filter(session=request.session.session_key).values()
+    t = Translations.objects.values()
     data['data'] = [entry for entry in t] 
   return JsonResponse(data)

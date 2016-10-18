@@ -5,7 +5,6 @@ class Translations(models.Model):
   original_text = models.TextField()
   language = models.TextField()
   translated_text = models.TextField()
-  session = models.CharField(max_length=40)
 
   def __str__(self):
     return self.original_text
