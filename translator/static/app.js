@@ -43,7 +43,7 @@ myApp.factory('translationFactory', function ($http, $q) {
     $http.get('/retrieve')
       .then(function (res) {
         deferred.resolve(res.data)
-      }, function (errr) {
+      }, function (error) {
         console.error(error)
       })
       return deferred.promise

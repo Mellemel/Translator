@@ -11,8 +11,6 @@ import json
 translator = BingTranslator(config.client_id, config.key)
 
 def index(request):
-  if not request.session.get('has_session'):
-    request.session['has_session'] = True
   template = loader.get_template('index.html')
   return HttpResponse(template.render(request=request))
 
@@ -29,7 +27,6 @@ def translate(request):
 
 def retrieve(request):
   data = {}
-  if request.session.get('has_session'):
-    t = Translations.objects.values()
-    data['data'] = [entry for entry in t] 
+  t = Translations.objects.values()
+  data['data'] = [entry for entry in t] 
   return JsonResponse(data)
